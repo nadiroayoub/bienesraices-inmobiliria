@@ -1,5 +1,10 @@
 <?php  
-
+    // Verificar la sesion
+    require '../../includes/funciones.php';
+    $auth = estaAuthenticado();
+    if(!$auth){
+        header('location: /');
+    }
     // Base de datos
     require '../../includes/config/database.php';
     $db = conectarDB();
@@ -122,8 +127,7 @@
         }        
     };
 
-    require '../../includes/funciones.php';
-    
+    // Incluye el template de header    
     incluirTemplates('header');
 ?>
     <main class="contenedor seccion">

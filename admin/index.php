@@ -1,5 +1,13 @@
 <?php  
 
+
+    // Verificar la Sesion
+    require '../includes/funciones.php';
+    $auth = estaAuthenticado();
+    if(!$auth){
+        header('Location: /');
+    }
+
     // Importar la conexion
     require '../includes/config/database.php';
     $db = conectarDB();
@@ -38,8 +46,9 @@
         }
         exit;
     }
+
+
     // Incluye un template
-    require '../includes/funciones.php';
     incluirTemplates('header');
 ?>
     <main class="contenedor seccion">
