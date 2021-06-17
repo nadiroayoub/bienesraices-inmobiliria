@@ -1,38 +1,57 @@
 <?php  
     require 'includes/funciones.php';
     incluirTemplates('header');
+    
+    // Implementar la conexcion 
+    require 'includes/config/database.php';
+    $db = conectarDB();
+
+    // Obtener el id de la pagina de anuncios
+    $id = $_GET['id'];
+    $id = filter_var($id, FILTER_VALIDATE_INT);
+    if(!$id) {
+        header('location: /');
+    }
+    // Consultar la base de datos
+    $query = "SELECT * FROM propiedades WHERE id = ${id}";
+
+    // Obtener datos desde la base de datos
+    $resultado = mysqli_query($db, $query);
+    $propiedad = mysqli_fetch_assoc($resultado);
+
+    // echo '<pre>';
+    // var_dump($resultado_FINAL['id']);
+    // echo '</pre>';
+    // exit;
 ?>
 
     <main class="contenedor seccion contenido-centrado">
-        <h1>Casa de venta frente al bosque</h1>
-        <picture>
-            <source srcset="build/img/destacada.webp" type="image/webp">
-            <source srcset="build/img/destacada.jpe" type="image/jpeg">
-            <img loading="lazy" src="build/img/destacada.jpg" alt="imagen de la propiedad">
-        </picture>
+        <h1><?php echo $propiedad['titulo']?></h1>
+            <img loading="lazy" src="imagenes/<?php echo $propiedad['imagen']?>" alt="imagen de la propiedad">
         <div class="resumen-propiedad">
-            <p class="precio">$3,000,000</p>
+            <p class="precio">$<?php echo $propiedad['precio']?></p>
             <ul class="iconos-caracteristicas">
                 <li>
                     <img loading="lazy" src="build/img/icono_wc.svg" alt="icono wc">
-                    <p>3</p>
+                    <p><?php echo $propiedad['wc']?></p>
                 </li>
                 <li>
                     <img loading="lazy" src="build/img/icono_estacionamiento.svg" alt="icono estacienamiento">
-                    <p>3</p>
+                    <p><?php echo $propiedad['estacionamiento']?></p>
                 </li>
                 <li>
                     <img loading="lazy" src="build/img/icono_dormitorio.svg" alt="icono dormitorio">
-                    <p>4</p>
+                    <p><?php echo $propiedad['habitaciones']?></p>
                 </li>
             </ul>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur possimus dignissimos voluptatibus omnis quos eveniet sapiente nisi dolorum officia voluptas, atque quidem magni ea deleniti quod ratione at! Nulla aliquid culpa consequatur earum accusamus suscipit iste ex, corrupti praesentium numquam!</p>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi autem corrupti totam aut voluptatem illum libero, nemo, maxime obcaecati deserunt labore omnis mollitia. Deserunt consectetur consequatur quae veritatis eligendi illum amet omnis. Vitae quam odit, est atque inventore perspiciatis aperiam!
+                <?php echo $propiedad['descripcion']?>
             </p>
         </div>
     </main>
 
-<?php 
+<?php
+
+    mysqli_close($db);
     incluirTemplates('footer'); 
 ?>
