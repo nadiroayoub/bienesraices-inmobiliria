@@ -4,7 +4,7 @@
         session_start();
     }
     $auth = $_SESSION['login'] ?? false;
-    var_dump($auth);
+    // var_dump($auth);
 
 ?>
 <!DOCTYPE html>
